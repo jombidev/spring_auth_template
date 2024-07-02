@@ -87,6 +87,7 @@ dependencies {
     */
 
     implementation(project(":api"))
+    implementation(project(":business"))
     implementation(project(":core"))
     implementation(project(":infra"))
 

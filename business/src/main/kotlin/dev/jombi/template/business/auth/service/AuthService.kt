@@ -1,6 +1,6 @@
-package dev.jombi.template.core.auth.service
+package dev.jombi.template.business.auth.service
 
-import dev.jombi.template.core.auth.dto.TokenDto
+import dev.jombi.template.business.auth.dto.TokenDto
 
 interface AuthService {
     fun authenticate(credential: String, password: String): TokenDto

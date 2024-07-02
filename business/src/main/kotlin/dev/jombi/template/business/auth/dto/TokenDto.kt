@@ -1,4 +1,4 @@
-package dev.jombi.template.core.auth.dto
+package dev.jombi.template.business.auth.dto
 
 data class TokenDto(
     val accessToken: String,

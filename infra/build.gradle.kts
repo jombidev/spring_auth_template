@@ -1,5 +1,4 @@
 dependencies {
-    implementation(project(":common"))
     implementation(project(":core"))
 
     implementation("io.jsonwebtoken:jjwt-api")

@@ -1,8 +1,8 @@
 package dev.jombi.template.api.member.presentation
 
 import dev.jombi.template.api.member.dto.response.MemberInfoResponseDto
+import dev.jombi.template.business.member.service.MemberService
 import dev.jombi.template.common.response.ResponseData
-import dev.jombi.template.core.member.service.MemberService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping

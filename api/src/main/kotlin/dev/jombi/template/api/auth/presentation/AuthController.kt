@@ -4,8 +4,8 @@ import dev.jombi.template.api.auth.dto.request.AuthenticateRequestDto
 import dev.jombi.template.api.auth.dto.request.CreateMemberRequestDto
 import dev.jombi.template.api.auth.dto.request.NewTokenRequestDto
 import dev.jombi.template.api.auth.dto.response.TokenResponseDto
+import dev.jombi.template.business.auth.service.AuthService
 import dev.jombi.template.common.response.ResponseData
-import dev.jombi.template.core.auth.service.AuthService
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping

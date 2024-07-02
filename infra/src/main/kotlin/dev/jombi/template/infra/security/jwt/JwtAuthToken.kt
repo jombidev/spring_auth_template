@@ -1,4 +1,4 @@
-package dev.jombi.template.core.auth.dto
+package dev.jombi.template.infra.security.jwt
 
 import org.springframework.security.authentication.AbstractAuthenticationToken
 

@@ -2,7 +2,7 @@ package dev.jombi.template.infra.security.providers
 
 import dev.jombi.template.common.exception.CustomException
 import dev.jombi.template.common.exception.GlobalExceptionDetail
-import dev.jombi.template.core.auth.dto.JwtAuthToken
+import dev.jombi.template.infra.security.jwt.JwtAuthToken
 import dev.jombi.template.infra.security.jwt.TokenValidator
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.core.Authentication

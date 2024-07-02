@@ -1,9 +1,10 @@
 package dev.jombi.template.core.auth.service
 
-import dev.jombi.template.common.exception.CustomException
-import dev.jombi.template.core.auth.dto.TokenDto
-import dev.jombi.template.core.auth.exception.AuthExceptionDetails
+import dev.jombi.template.business.auth.dto.TokenDto
 import dev.jombi.template.core.auth.extern.TokenGenerator
+import dev.jombi.template.business.auth.service.AuthService
+import dev.jombi.template.common.exception.CustomException
+import dev.jombi.template.core.auth.exception.AuthExceptionDetails
 import dev.jombi.template.core.member.entity.Member
 import dev.jombi.template.core.member.repository.MemberJpaRepository
 import org.springframework.security.authentication.AuthenticationManager

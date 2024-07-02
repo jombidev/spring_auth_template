@@ -1,9 +1,9 @@
 package dev.jombi.template.infra.security.jwt
 
+import dev.jombi.template.core.auth.extern.TokenGenerator
 import dev.jombi.template.common.exception.CustomException
 import dev.jombi.template.common.exception.GlobalExceptionDetail
 import dev.jombi.template.core.auth.exception.AuthExceptionDetails
-import dev.jombi.template.core.auth.extern.TokenGenerator
 import dev.jombi.template.core.member.repository.MemberJpaRepository
 import dev.jombi.template.core.member.MemberHolder
 import dev.jombi.template.core.member.details.MemberDetails

@@ -1,6 +1,5 @@
 package dev.jombi.template.infra.security.jwt
 
-import dev.jombi.template.core.auth.dto.JwtAuthToken
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse

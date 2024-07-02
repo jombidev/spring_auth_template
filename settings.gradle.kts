@@ -3,6 +3,7 @@ plugins {
 }
 rootProject.name = "spring_templates"
 include("api")
+include("business")
 include("common")
 include("core")
 include("infra")
