@@ -7,12 +7,10 @@ import dev.jombi.template.core.auth.extern.TokenGenerator
 import dev.jombi.template.core.member.repository.MemberJpaRepository
 import dev.jombi.template.core.member.MemberHolder
 import dev.jombi.template.core.member.details.MemberDetails
-import io.jsonwebtoken.Claims
-import io.jsonwebtoken.ExpiredJwtException
-import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.MalformedJwtException
+import io.jsonwebtoken.*
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import java.util.*
 
@@ -51,8 +49,17 @@ class JwtTokenManager(
         }
     }
 
-    override fun refreshToken(refreshToken: String): String {
-        TODO()
+    override fun refreshToNewToken(refreshToken: String): String {
+        val parsed = parse(refreshToken)
+        if (JwtType.valueOf(parsed.header.type) != JwtType.REFRESH_TOKEN)
+            throw CustomException(AuthExceptionDetails.TOKEN_TYPE_MISMATCH)
+
+        val pl = (parsed.payload as Claims)
+
+        // in this case, context is unauthorized. so trust the refresh token (sadly)
+        SecurityContextHolder.getContext().authentication = authenticate(pl)
+
+        return generateAccessToken()
     }
 
     private val jwtParser = Jwts.parser()
@@ -60,20 +67,31 @@ class JwtTokenManager(
         .requireIssuer(jwtProperties.issuer)
         .build()
 
+    fun authenticate(payload: Claims): Authentication {
+        val member = memberJpaRepository.findMemberByCredential(payload.subject)
+            ?: throw CustomException(AuthExceptionDetails.INVALID_TOKEN)
+
+        return  UsernamePasswordAuthenticationToken(MemberDetails(member), null, setOf())
+    }
 
     override fun validate(jwt: String): Authentication {
+        val parsed = parse(jwt)
+
+        val pl = parsed.payload as Claims
+
+        if (JwtType.valueOf(parsed.header.type) != JwtType.ACCESS_TOKEN)
+            throw CustomException(AuthExceptionDetails.TOKEN_TYPE_MISMATCH)
+
+        return authenticate(pl)
+    }
+
+    private fun parse(token: String): Jwt<*, *> {
         try {
-            val parsed = jwtParser.parse(jwt)
+            val parsed = jwtParser.parse(token)
+            if (parsed.payload !is Claims)
+                throw MalformedJwtException("no claims (raw)") // validation
 
-            val pl = parsed.payload as Claims
-
-            if (JwtType.valueOf(parsed.header.type) != JwtType.ACCESS_TOKEN)
-                throw CustomException(AuthExceptionDetails.TOKEN_TYPE_MISMATCH)
-
-            val member = memberJpaRepository.findMemberByCredential(pl.subject)
-                ?: throw MalformedJwtException("subject")
-
-            return UsernamePasswordAuthenticationToken(MemberDetails(member), null, setOf())
+            return parsed
         } catch (e: ExpiredJwtException) {
             throw CustomException(AuthExceptionDetails.EXPIRED_TOKEN)
         } catch (e: MalformedJwtException) {
