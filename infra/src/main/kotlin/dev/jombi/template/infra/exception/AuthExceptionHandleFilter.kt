@@ -29,11 +29,11 @@ class AuthExceptionHandleFilter(private val mapper: ObjectMapper) : OncePerReque
     }
 
     private fun HttpServletResponse.writeJson(detail: ExceptionDetail, vararg formats: Any?) {
-        status = detail.code.value()
+        status = detail.status.value()
         val body = mapper.writeValueAsBytes(
             ResponseError(
-                detail.enumName,
-                detail.code.value(),
+                detail.code,
+                detail.status.value(),
                 detail.message.format(*formats)
             )
         )

@@ -2,7 +2,7 @@ package dev.jombi.template.common.exception
 
 import org.springframework.http.HttpStatus
 
-enum class GlobalExceptionDetail(override val message: String, override val code: HttpStatus) : ExceptionDetail {
+enum class GlobalExceptionDetail(override val message: String, override val status: HttpStatus) : ExceptionDetail {
     INTERNAL_SERVER_ERROR("내부 서버 에러", HttpStatus.INTERNAL_SERVER_ERROR),
 
     PARAMETER_NOT_MATCH("파라미터 불일치: %s (%s)", HttpStatus.BAD_REQUEST),
@@ -12,6 +12,6 @@ enum class GlobalExceptionDetail(override val message: String, override val code
     METHOD_NOT_SUPPORTED("메소드 '%s'(은)는 지원되지 않음. (지원하는 메소드: '%s')", HttpStatus.NOT_FOUND),
     ;
 
-    override val enumName = name
+    override val code = name
 
 }

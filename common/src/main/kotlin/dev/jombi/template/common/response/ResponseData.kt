@@ -3,7 +3,7 @@ package dev.jombi.template.common.response
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
-class ResponseData<T>(message: String, code: Int, val data: T) : ResponseEmpty(message, code) {
+class ResponseData<T>(code: String, status: Int, val data: T) : ResponseEmpty(code, status) {
     companion object {
         fun <T> of(message: String, code: HttpStatus, data: T) =
             ResponseEntity.status(code).body(ResponseData(message, code.value(), data))
