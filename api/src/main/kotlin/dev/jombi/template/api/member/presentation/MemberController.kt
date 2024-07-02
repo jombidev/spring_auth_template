@@ -1,6 +1,6 @@
-package dev.jombi.template.api.auth.presentation
+package dev.jombi.template.api.member.presentation
 
-import dev.jombi.template.api.auth.dto.response.MemberInfoResponseDto
+import dev.jombi.template.api.member.dto.response.MemberInfoResponseDto
 import dev.jombi.template.common.response.ResponseData
 import dev.jombi.template.core.member.service.MemberService
 import org.springframework.http.ResponseEntity
