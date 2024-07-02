@@ -1,4 +1,4 @@
-package dev.jombi.template.infra.security.details
+package dev.jombi.template.core.member.details
 
 import dev.jombi.template.core.member.entity.Member
 import org.springframework.security.core.GrantedAuthority

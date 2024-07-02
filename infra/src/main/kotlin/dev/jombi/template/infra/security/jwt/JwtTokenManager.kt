@@ -5,7 +5,8 @@ import dev.jombi.template.common.exception.GlobalExceptionDetail
 import dev.jombi.template.core.auth.exception.AuthExceptionDetails
 import dev.jombi.template.core.auth.extern.TokenGenerator
 import dev.jombi.template.core.member.repository.MemberJpaRepository
-import dev.jombi.template.infra.security.MemberContext
+import dev.jombi.template.core.member.MemberHolder
+import dev.jombi.template.core.member.details.MemberDetails
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts
@@ -18,7 +19,7 @@ import java.util.*
 @Component
 class JwtTokenManager(
     private val jwtProperties: JwtProperties,
-    private val memberContext: MemberContext,
+    private val memberContext: MemberHolder,
     private val memberJpaRepository: MemberJpaRepository
 ) : TokenGenerator, TokenValidator {
     override fun generateAccessToken(): String {
@@ -72,7 +73,7 @@ class JwtTokenManager(
             val member = memberJpaRepository.findMemberByCredential(pl.subject)
                 ?: throw MalformedJwtException("subject")
 
-            return UsernamePasswordAuthenticationToken(member, null, setOf())
+            return UsernamePasswordAuthenticationToken(MemberDetails(member), null, setOf())
         } catch (e: ExpiredJwtException) {
             throw CustomException(AuthExceptionDetails.EXPIRED_TOKEN)
         } catch (e: MalformedJwtException) {

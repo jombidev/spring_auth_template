@@ -1,5 +1,6 @@
 package dev.jombi.template.infra.security.details
 
+import dev.jombi.template.core.member.details.MemberDetails
 import dev.jombi.template.core.member.repository.MemberJpaRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
