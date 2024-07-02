@@ -4,13 +4,12 @@ import dev.jombi.template.core.auth.extern.TokenGenerator
 import dev.jombi.template.common.exception.CustomException
 import dev.jombi.template.common.exception.GlobalExceptionDetail
 import dev.jombi.template.core.auth.exception.AuthExceptionDetails
-import dev.jombi.template.core.member.repository.MemberJpaRepository
 import dev.jombi.template.core.member.MemberHolder
-import dev.jombi.template.core.member.details.MemberDetails
 import io.jsonwebtoken.*
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Component
 import java.util.*
 
@@ -18,7 +17,7 @@ import java.util.*
 class JwtTokenManager(
     private val jwtProperties: JwtProperties,
     private val memberContext: MemberHolder,
-    private val memberJpaRepository: MemberJpaRepository
+    private val memberDetailsService: UserDetailsService
 ) : TokenGenerator, TokenValidator {
     override fun generateAccessToken(): String {
         return generateToken(JwtType.ACCESS_TOKEN)
@@ -68,10 +67,8 @@ class JwtTokenManager(
         .build()
 
     fun authenticate(payload: Claims): Authentication {
-        val member = memberJpaRepository.findMemberByCredential(payload.subject)
-            ?: throw CustomException(AuthExceptionDetails.INVALID_TOKEN)
-
-        return  UsernamePasswordAuthenticationToken(MemberDetails(member), null, setOf())
+        val member = memberDetailsService.loadUserByUsername(payload.subject)
+        return  UsernamePasswordAuthenticationToken(member, null, setOf())
     }
 
     override fun validate(jwt: String): Authentication {
